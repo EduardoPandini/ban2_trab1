@@ -1,1 +1,1 @@
-print "homem balde ta tirando "
+print "homem balde ta tirando e ele quer me foder"
