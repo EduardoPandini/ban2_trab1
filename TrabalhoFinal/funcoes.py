@@ -6,113 +6,58 @@ import sys
 
 
         
-    
+def seleciona(valor): #inserts
+    conexao,cursor = conexao.connect()
+    if valor == 1:
+        print("selecione a tabela:")
+        print("1 = professor:")
+        print("2 = aluno:")
+        print("3 = departamento")
+        print("4 = projeto")
+        print("5 = participa")
+        print("6 = trabalha")
+        ntab = int(input())
 
-def insert(table,instr:str):
-    connection=psycopg2.connect("dbname=Faculdade user=postgres password=udesc")
-    cursor=connection.cursor()
-    if table== 1: #professor
+        if ntab == 1:
+            tnome = "professor"
+            out = tabelas.professor.proget()
+        if ntab == 2:
+            tnome = "aluno"
+            out = tabelas.aluno.proget()    
+        if ntab == 3:
+            tnome = "departamento"
+            out = tabelas.departamento.proget()
+        if ntab == 4:
+            tnome = "projeto"
+            out = tabelas.projeto.proget()
+        if ntab == 5:
+            tnome = "participa"
+            out = tabelas.participa.proget()
+        if ntab == 6:
+            tnome = "trabalha"
+            out = tabelas.trabalha.proget()
+        sinsert(conexao,cursor,tnome,out) 
 
-        #matricula = int(input())
-        #idade = int(input())
-        #nome = str(input())
-        #sala = str(input())
-        #especialidade = str(input())
-        cursor.execute("INSERT INTO professor VALUES(%s)", (instr)) ##injetar os valores na tabela
-        connection.commit()
-        connection.close()
 
-    if table == 2: #aluno
-        matricula = int(input())
-        nome = str(input())
-        t_curso = str(input())
-        idade = int(input())
-        dep = int(input())
-        conselheiro = int(input())
-        cursor.execute("INSERT INTO aluno VALUES(%s,%s,%s,%s,%s,%s)", (matricula,nome,t_curso,idade,dep,conselheiro)) ##injetar os valores na tabela
-        connection.commit()
-        connection.close()
+def sinsert(conexao,cursor,tnome,values:tuple):
+        querry = f"INSERT into {tnome} values {values}"
+        print(querry)
+        resposta:False
+        dale(cursor,querry,resposta)
+        cursor.execute(querry)
+        conexao.commit()
 
-    if table == 3: #departamento
-        numero = int(input())
-        escritorio = str(input())
-        nome = str(input())
-        lider = int(input())
-        cursor.execute("INSERT INTO departamento VALUES(%s,%s,%s,%s)", (numero,escritorio,nome,lider)) ##injetar os valores na tabela
-        connection.commit()
-        connection.close()
-
-    if table == 4: #projeto
-        numero = int(input())
-        orcamento = int(input())
-        data_inicio = strftime(input())
-        data_fim = strftime(input())
-        gerente = int(input())
-        cursor.execute("INSERT INTO projeto VALUES(%s,%s,%s,%s,%s)", (numero,orcamento,data_inicio,data_fim,gerente))
-        connection.commit()
-        connection.close()
-
-    if table == 5: #trabalha
-        dnum = int(input())
-        pmat = int(input())
-        tempo = int(input())
-        cursor.execute("INSERT INTO trabalha VALUES(%s,%s,%s)", (dnum,pmat,tempo))
-        connection.commit()
-        connection.close()
-
-    if table == 6: #participa
-        participante = int(input())
-        pnum = int(input())
-        cursor.execute("INSERT INTO participa VALUES(%s,%s)", (participante,pnum))
-        connection.commit()
-        connection.close()
-
-    if table == 7: #selects
-        print("insira a tabela que deseja selecionar")
-        tabela = str(input())
-        print("o que deseja selecionar, separado por virgulas (* para tudo)")
-        colunas = str(input())
-        print("insira a condicao de selecao")
-        querry= str(input())
-        cursor.execute("select " + colunas + " from " + tabela + " where " + querry)
-        connection.commit()
-        rows=cursor.fetchall()
-        for item in rows:
-            print(item)
-        connection.close()
-
-def sinsert(tablename:str, values:tuple):
-        connection=psycopg2.connect("dbname=Faculdade user=postgres password=udesc")
-        cursor=connection.cursor()
-        tablename = 'professor'
-        execString = f"insert into {tablename} values {values}"
-        print(execString)
-        cursor.execute(execString)
-        connection.commit()
-
-def dale(cursor:psycopg2.extensions.cursor, execString:str, returnsTable:bool):
-    """
-    Função para executar uma query 
-        Já que praticamente todas as funções acima lidam com a execução de uma 
-        query de praticamente a mesma forma, é mais conveniente colocar isso 
-        numa função separada
-    execString é a query a ser executada
-    returnsTable indica se essa query deveria retornar tabelas ou não, i.e.:
-        True:  Retorna tabelas     (usa o método fetchall())
-        False: Não retorna tabelas (usa o método rowcount())
-    """
+def dale(cursor:psycopg2.extensions.cursor, querry:str, resposta:bool):
 
     try:
-        cursor.execute(execString)
+        cursor.execute(querry)
         cursor.commit()
 
-        if returnsTable:
+        if resposta:
             results = cursor.fetchall() # retorna uma lista de tuplas
-        else:
-            results = cursor.rowcount()
 
     except psycopg2.ProgrammingError: # Erro gerado caso a query de erro
-        print("Erro ao executar a query",execString, file=sys.stderr)
+        print("Erro ao executar a query",querry, file=sys.stderr)
         return None
 
     return results
