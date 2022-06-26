@@ -15,16 +15,9 @@ def connect():
         # create a cursor
         cursor = conexao.cursor()
         
-	# execute a statement
-        print('PostgreSQL database version:')
-        cursor.execute('SELECT version()')
-
-        # display the PostgreSQL database server version
-        db_version = cursor.fetchone()
-        print(db_version)
-
     except (Exception, psycopg2.DatabaseError) as error:
         print(error)
+
     return(conexao,cursor)
 
 if __name__ == '__main__':

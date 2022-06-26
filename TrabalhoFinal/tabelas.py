@@ -10,11 +10,17 @@ class aluno:
         self.conselheiro = conselheiro
 
     def proget():
+        print("matricula")
         matricula = str(input())
+        print("nome")
         nome = str(input())
+        print("tipo do curso")
         t_curso = str(input())
+        print("idade")
         idade = str(input())
+        print("departamento")
         dep = str(input())
+        print("conselheiro")
         conselheiro = str(input())
         caluno = aluno(matricula,nome,t_curso,idade,dep,conselheiro)
         out = aluno.__str__(caluno)
@@ -33,9 +39,13 @@ class departamento:
         return (str(self.numero), str(self.escritorio), str(self.nome), str(self.lider))
 
     def proget():
+        print("numero")
         numero = str(input())
+        print("escritorio")
         escritorio = str(input())
+        print("nome")
         nome = str(input())
+        print("lider")
         lider = str(input())
         cdepartamento = departamento(numero,escritorio,nome,lider)
         out = departamento.__str__(cdepartamento)
@@ -50,7 +60,9 @@ class participa:
         self.pnum = pnum
 
     def proget():
+        print("participante")
         participante = str(input())
+        print("professor")
         pnum = str(input())
         cparticipa = participa(participante,pnum)
         out = participa.__str__(cparticipa)
@@ -69,10 +81,15 @@ class professor:
         self.especialidade = especialidade
 
     def proget():
+        print("matricula")
         matricula = str(input())
+        print("idade")
         idade = str(input())
+        print("nome")
         nome = str(input())
+        print("sala")
         sala = str(input())
+        print("especialidade")
         especialidade = str(input())
         cprofessor = professor(matricula,idade,nome,sala,especialidade)
         out = professor.__str__(cprofessor)
@@ -91,10 +108,15 @@ class projeto:
         self.gerente = gerente
 
     def proget():
+        print("numero")
         numero = str(input())
+        print("orçamento")
         orcamento = str(input())
+        print("data inicio")
         data_inicio = str(input())
+        print("data fim")
         data_fim = str(input())
+        print("gerente")
         gerente = str(input())
         cprojeto = projeto(numero,orcamento,data_inicio,data_fim,gerente)
         out = projeto.__str__(cprojeto)
@@ -110,8 +132,11 @@ class trabalha:
         self.tempo = tempo
 
     def proget():
+        print("departamento")
         dnum = str(input())
+        print("professor")
         pmat = str(input())
+        print("porcentagem horas")
         tempo = str(input())
         ctrabalha = trabalha(dnum,pmat,tempo)
         out = trabalha.__str__(ctrabalha)
