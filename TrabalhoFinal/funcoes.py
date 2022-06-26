@@ -1,18 +1,24 @@
 from time import strftime
 from unittest.util import strclass
-from tabelas import *
+import tabelas
 import psycopg2
+import sys
 
-def insert(table):
+
+        
+    
+
+def insert(table,instr:str):
     connection=psycopg2.connect("dbname=Faculdade user=postgres password=udesc")
     cursor=connection.cursor()
     if table== 1: #professor
-        matricula = int(input())
-        idade = int(input())
-        nome = str(input())
-        sala = str(input())
-        especialidade = str(input())
-        cursor.execute("INSERT INTO professor VALUES(%s,%s,%s,%s,%s)", (matricula,idade,nome,sala,especialidade)) ##injetar os valores na tabela
+
+        #matricula = int(input())
+        #idade = int(input())
+        #nome = str(input())
+        #sala = str(input())
+        #especialidade = str(input())
+        cursor.execute("INSERT INTO professor VALUES(%s)", (instr)) ##injetar os valores na tabela
         connection.commit()
         connection.close()
 
@@ -74,10 +80,46 @@ def insert(table):
         for item in rows:
             print(item)
         connection.close()
-        
-        
+
+def sinsert(tablename:str, values:tuple):
+        connection=psycopg2.connect("dbname=Faculdade user=postgres password=udesc")
+        cursor=connection.cursor()
+        tablename = 'professor'
+        execString = f"insert into {tablename} values {values}"
+        print(execString)
+        cursor.execute(execString)
+        connection.commit()
+
+def dale(cursor:psycopg2.extensions.cursor, execString:str, returnsTable:bool):
+    """
+    Função para executar uma query 
+        Já que praticamente todas as funções acima lidam com a execução de uma 
+        query de praticamente a mesma forma, é mais conveniente colocar isso 
+        numa função separada
+    execString é a query a ser executada
+    returnsTable indica se essa query deveria retornar tabelas ou não, i.e.:
+        True:  Retorna tabelas     (usa o método fetchall())
+        False: Não retorna tabelas (usa o método rowcount())
+    """
+
+    try:
+        cursor.execute(execString)
+        cursor.commit()
+
+        if returnsTable:
+            results = cursor.fetchall() # retorna uma lista de tuplas
+        else:
+            results = cursor.rowcount()
+
+    except psycopg2.ProgrammingError: # Erro gerado caso a query de erro
+        print("Erro ao executar a query",execString, file=sys.stderr)
+        return None
+
+    return results
 if __name__ == '__main__':
-    select = int(input())
-    print(select)
-    insert(select)
+
+    linha =  tabelas.professor(4,22,'ze','salaze','zethings')
+    linhain = tabelas.professor.__str__(linha)
+    print(linhain)
+    sinsert(1,linhain)
     
