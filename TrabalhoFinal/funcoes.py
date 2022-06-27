@@ -120,15 +120,12 @@ def sinsert(conn,cursor,tnome,values:tuple):
     querry = f"INSERT into {tnome} values {values}"
     print(querry)
     dale(conn,cursor,querry,False)
-    cursor.execute(querry)
-    conn.commit()
+
 
 def delete(conn,cursor,tnome,condicao):
     querry = f"DELETE FROM {tnome} WHERE {condicao}"
     print(querry)
     dale(conn, cursor,querry,False)
-    cursor.execute(querry)
-    conn.commit()
 
 def dale(conn, cursor, querry:str, resposta:bool):
 
