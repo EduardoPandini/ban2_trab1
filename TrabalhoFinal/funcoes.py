@@ -140,8 +140,9 @@ def dale(conn, cursor, querry:str, resposta:bool):
             results = cursor.fetchall() 
             for item in results:
                 print(item)
+            return results
     except psycopg2.ProgrammingError: # Erro gerado caso a query de erro
         print("Erro ao executar a query",querry, file=sys.stderr)
         return None
 
-    return results
+    
